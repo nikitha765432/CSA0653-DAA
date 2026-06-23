@@ -1,0 +1,56 @@
+T.Nikhitha (192424114)
+
+Question 1 
+n = int(input())
+graph = [list(map(int, input().split())) for _ in range(n)]
+selected = [False] * n
+selected[0] = True
+cost = 0
+
+for _ in range(n - 1):
+    m = 999
+    x = y = 0
+
+    for i in range(n):
+        if selected[i]:
+            for j in range(n):
+                if not selected[j] and 0 < graph[i][j] < m:
+                    m = graph[i][j]
+                    x, y = i, j
+    print(x, "-", y, "=", m)
+    cost += m
+    selected[y] = True
+
+print("Total weight =", cost)
+INPUT:
+Graph=
+0 2 3
+2 0 1
+3 1 0
+OUTPUT: Total Weight = 3
+Time Complexity: O(V²)
+Space Complexity: O(V)
+
+QUESTION 2
+edges = [(0,1,2), (0,2,3), (1,2,1), (1,3,4), (2,3,5)]
+
+parent = list(range(4))
+
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
+
+cost = 0
+
+for u, v, w in sorted(edges, key=lambda x: x[2]):
+    if find(u) != find(v):
+        parent[find(u)] = find(v)
+        print(u, "-", v, "=", w)
+        cost += w
+print("Total weight =", cost)
+
+OUTPUT:
+MST Cost = 7
+Time Complexity: O(E log E)
+Space Complexity: O(V)
