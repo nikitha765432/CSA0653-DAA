@@ -1,0 +1,103 @@
+T.Nikhitha(19242114)
+Question 1: Investment Portfolio Optimization
+Greedy Code
+capital = [20000, 30000, 40000, 50000]
+returns = [25000, 40000, 50000, 70000]
+
+budget = 80000
+
+items = []
+
+for i in range(len(capital)):
+    ratio = returns[i] / capital[i]
+    items.append((ratio, capital[i], returns[i]))
+
+items.sort(reverse=True)
+
+used = 0
+profit = 0
+
+for ratio, cap, ret in items:
+    if used + cap <= budget:
+        used += cap
+        profit += ret
+
+print("Maximum Return =", profit)
+
+OUTPUT:
+Maximum Return = 110000
+
+Dynamic Programming Code
+capital = [20000, 30000, 40000, 50000]
+returns = [25000, 40000, 50000, 70000]
+
+budget = 80000
+n = len(capital)
+
+dp = [[0]*(budget+1) for _ in range(n+1)]
+
+for i in range(1, n+1):
+    for w in range(budget+1):
+
+        if capital[i-1] <= w:
+            dp[i][w] = max(
+                returns[i-1] + dp[i-1][w-capital[i-1]],
+                dp[i-1][w]
+            )
+        else:
+            dp[i][w] = dp[i-1][w]
+
+print("Maximum Return =", dp[n][budget])
+Output
+Maximum Return = 110000
+
+Question 2: Delivery Vehicle Loading
+Greedy Code
+weights = [10, 20, 30, 25]
+profits = [60, 100, 120, 110]
+
+capacity = 50
+
+items = []
+
+for i in range(len(weights)):
+    ratio = profits[i] / weights[i]
+    items.append((ratio, weights[i], profits[i]))
+
+items.sort(reverse=True)
+
+total_profit = 0
+used_weight = 0
+
+for ratio, wt, prof in items:
+    if used_weight + wt <= capacity:
+        used_weight += wt
+        total_profit += prof
+
+print("Maximum Profit =", total_profit)
+Output
+Maximum Profit = 160
+
+Dynamic Programming Code (0/1 Knapsack)
+weights = [10, 20, 30, 25]
+profits = [60, 100, 120, 110]
+
+capacity = 50
+n = len(weights)
+
+dp = [[0]*(capacity+1) for _ in range(n+1)]
+
+for i in range(1, n+1):
+    for w in range(capacity+1):
+
+        if weights[i-1] <= w:
+            dp[i][w] = max(
+                profits[i-1] + dp[i-1][w-weights[i-1]],
+                dp[i-1][w]
+            )
+        else:
+            dp[i][w] = dp[i-1][w]
+
+print("Maximum Profit =", dp[n][capacity])
+Output
+Maximum Profit = 220
