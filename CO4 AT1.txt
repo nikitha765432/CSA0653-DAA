@@ -1,0 +1,13 @@
+T.Nikhitha (192424114)
+
+Question 1 
+
+Prim's Algorithm
+Time Complexity: O(V²)
+Space Complexity: O(V)
+
+QUESTION 2
+
+Kruskal's Algorithm
+Time Complexity: O(E log E)
+Space Complexity: O(V)
