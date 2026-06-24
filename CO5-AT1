@@ -1,0 +1,77 @@
+//T.Nikhitha(192424114)
+Q1. Job Scheduling (Backtracking / NP-Hard)
+Problem Description : A company must assign jobs to employees such that:
+ 1.Every job is assigned.
+ 2.One employee handles only one job.
+ 3.Deadlines are satisfied.
+Constraints
+  1.One employee → One job
+  2.All jobs must be assigned
+  3.Employee must be available
+Technique Used : Backtracking
+Python Code:
+jobs = ["J1", "J2", "J3"]
+employees = ["E1", "E2", "E3"]
+used = [False] * len(employees)
+def assign(job):
+    if job == len(jobs):
+        return True
+    for i in range(len(employees)):
+        if not used[i]:
+            used[i] = True
+            print(jobs[job], "->", employees[i])
+            if assign(job + 1):
+                return True
+            used[i] = False
+    return False
+assign(0)
+Output
+J1 -> E1
+J2 -> E2
+J3 -> E3
+Complexity
+Time Complexity  : O(n!)
+Space Complexity : O(n)
+Justification : Backtracking tries possible assignments and removes invalid choices using pruning.
+
+Q2. Exam Timetabling (Graph Coloring / NP-Complete)
+Problem Description: A university must schedule exams so that:
+  1.No student has overlapping exams.
+  2.Available rooms and slots are used efficiently.
+Constraints
+ 1.Conflicting exams cannot be in the same slot.
+ 2.Room capacity should be sufficient.
+ 3.Limited time slots available.
+Technique Used:Graph Coloring + Backtracking
+Python Code 
+graph = [
+    [0,1,1,0],
+    [1,0,1,1],
+    [1,1,0,1],
+    [0,1,1,0]
+]
+m = 3
+def safe(v, color, c):
+    for i in range(len(graph)):
+        if graph[v][i] and color[i] == c:
+            return False
+    return True
+def color_graph(v, color):
+    if v == len(graph):
+        return True
+    for c in range(1, m + 1):
+        if safe(v, color, c):
+            color[v] = c
+            if color_graph(v + 1, color):
+                return True
+            color[v] = 0
+    return False
+color = [0] * len(graph)
+if color_graph(0, color):
+    print("Time Slots:", color)
+Output
+Time Slots: [1, 2, 3, 1]
+Complexity
+Time Complexity  : O(m^n)
+Space Complexity : O(n)
+Justification:Graph Coloring assigns time slots so that conflicting exams never occur at the same time
